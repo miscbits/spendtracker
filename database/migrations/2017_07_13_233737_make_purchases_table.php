@@ -17,10 +17,7 @@ class MakePurchasesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('cost');
-            $table->integer('item_id')->unsigned()->nullable();
             $table->timestamps();
-            $table->foreign('item_id')->references('id')
-                ->on('item')->onDelete('SET NULL');
         });
     }
 

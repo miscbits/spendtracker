@@ -16,10 +16,17 @@ class MakeItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('type_id')->nullable();
             $table->timestamps();
-            $table->foreign('type_id')->references('id')
-                ->on('type')->onDelete('SET NULL');
+        });
+
+        // item purchase pivot table
+        Schema::create('item_purchase', function (Blueprint $table)) {
+            $table->integer('item_id');
+            $table->integer('purchase_id');
+            $table->timestamps();
+
+            $table->foreign('item_id')->references('id')->on('items');
+            $table->foreign('purchase_id')->references('id')->on('purchases');
         });
     }
 
@@ -31,5 +38,6 @@ class MakeItemsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('items');
+        Schema::dropIfExists('item_purchase');
     }
 }
