@@ -49,7 +49,7 @@ class JWTAuthenticateController extends Controller
         $input = $request->only('name', 'email', 'password');
         $input['password'] = bcrypt($input['password']);
         
-        event(new Registered($user = User::create($input));
+        event(new Registered($user = User::create($input)));
 
         return response()->json(['result'=>true]);
     }
