@@ -20,7 +20,7 @@ class MakeTypesTable extends Migration
         });
 
         // item type pivot table
-        Schema::create('item_type', function (Blueprint $table)) {
+        Schema::create('item_type', function (Blueprint $table) {
             $table->integer('item_id');
             $table->integer('type_id');
             $table->timestamps();

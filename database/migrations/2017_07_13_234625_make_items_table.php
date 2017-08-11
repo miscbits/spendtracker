@@ -20,7 +20,7 @@ class MakeItemsTable extends Migration
         });
 
         // item purchase pivot table
-        Schema::create('item_purchase', function (Blueprint $table)) {
+        Schema::create('item_purchase', function (Blueprint $table) {
             $table->integer('item_id');
             $table->integer('purchase_id');
             $table->timestamps();
