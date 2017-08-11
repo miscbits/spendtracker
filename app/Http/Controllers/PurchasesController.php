@@ -72,6 +72,8 @@ class PurchasesController extends Controller
         $purchase = Purchase::findOrFail($id);
 
         $purchase->update($request->all());
+
+        return $purchase;
     }
 
     /**

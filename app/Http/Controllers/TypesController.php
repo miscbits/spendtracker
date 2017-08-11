@@ -71,7 +71,9 @@ class TypesController extends Controller
     {
         $type = Type::findOrFail($id);
 
-        return $type->update($request->all());
+        $type->update($request->all());
+
+        return $type;
     }
 
     /**

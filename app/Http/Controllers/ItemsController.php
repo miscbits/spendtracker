@@ -71,7 +71,9 @@ class ItemsController extends Controller
     {
         $item = Item::findOrFail($id);
 
-        return $item->update($request->all());
+        $item->update($request->all());
+
+        return $item;
     }
 
     /**
