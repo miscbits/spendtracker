@@ -11,7 +11,12 @@ class ItemTest extends TestCase
 {
     use DatabaseMigrations;
     use WithoutMiddleware;
-
+    
+    /**
+     * Setup for Tests.
+     *
+     * @return void
+     */
     public function setUp() {
         parent::setUp();
         
@@ -20,7 +25,7 @@ class ItemTest extends TestCase
         $this->updateArray = ['name' => 'Coffee'];
     }
     /**
-     * A basic test example.
+     * Test item index.
      *
      * @return void
      */
@@ -32,7 +37,11 @@ class ItemTest extends TestCase
 
         $response->assertJson(['total' => 1]);
     }
-
+    /**
+     * Test item show.
+     *
+     * @return void
+     */
     public function testGetItem() {
         $response = $this->get(route('items.show', $this->item->id));
 
@@ -40,7 +49,11 @@ class ItemTest extends TestCase
 
         $response->assertJson(['name' => $this->item->name]);
     }
-
+    /**
+     * Test item Store.
+     *
+     * @return void
+     */
     public function testCreateItem() {
         $response = $this->post(route('items.store', $this->updateArray));
 
@@ -52,7 +65,11 @@ class ItemTest extends TestCase
 
         $response->assertJson(['total' => 2]);
     }
-
+    /**
+     * Test item Update.
+     *
+     * @return void
+     */
     public function testUpdateItem() {
         $response = $this->put(route('items.update', array_merge($this->updateArray, ['item' => $this->item->id])));
 
@@ -64,7 +81,11 @@ class ItemTest extends TestCase
 
         $response->assertJson(['total' => 1]);
     }
-
+    /**
+     * Test item Destroy.
+     *
+     * @return void
+     */
     public function testDestroyItem() {
         $response = $this->delete(route('items.destroy', ['item' => $this->item->id]));
 

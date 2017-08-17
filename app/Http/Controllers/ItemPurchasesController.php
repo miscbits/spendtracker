@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Purchase;
+use App\Item;
 
-class PurchaseItemsController extends Controller
+class ItemPurchasesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Purchase $purchase)
+    public function index(Item $item)
     {
-        return $purchase->items()->paginate(50);
+        return $item->purchases()->paginate(50);
     }
 
     /**
@@ -33,9 +33,9 @@ class PurchaseItemsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Purchase $purchase)
+    public function store(Request $request, Item $item)
     {
-        return $purchase->items()->attach($request->only('item_id'));
+        return $item->purchases()->attach($request->only('purchase_id'));
     }
 
     /**
@@ -44,9 +44,9 @@ class PurchaseItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Purchase $purchase, $id)
+    public function show(Item $item, $id)
     {
-        return $purchase->items()->findOrFail($id);
+        return $item->purchases()->findOrFail($id);
     }
 
     /**
@@ -67,9 +67,9 @@ class PurchaseItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Purchase $purchase, $id)
+    public function update(Request $request, Item $item, $id)
     {
-        return $purchase->items()->toggle($id);
+        return $item->purchases()->toggle($id);
     }
 
     /**
@@ -78,8 +78,8 @@ class PurchaseItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Purchase $purchase, $id)
+    public function destroy(Item $item, $id)
     {
-        return $purchase->items()->detatch($id);
+        return $item->purchases()->detatch($id);
     }
 }
