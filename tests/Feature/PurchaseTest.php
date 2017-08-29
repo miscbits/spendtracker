@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class PurchaseTest extends TestCase
 {
     use DatabaseMigrations;
-    use WithoutMiddleware;
 
     public function setUp() {
         parent::setUp();
@@ -18,6 +17,8 @@ class PurchaseTest extends TestCase
         $this->purchase = factory(\App\Purchase::class)->create();
 
         $this->updateArray = ['name' => 'Starbucks', 'cost' => 2500];
+
+        $this->be(factory(\App\User::class)->create());
     }
     /**
      * A basic test example.

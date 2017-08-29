@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class ItemTypesTest extends TestCase
 {
     use DatabaseMigrations;
-    use WithoutMiddleware;
     /**
      * Setup for Tests.
      *
@@ -24,6 +23,9 @@ class ItemTypesTest extends TestCase
             ->each(function($i) {
                 $i->types()->saveMany(factory(\App\Type::class, 3)->create());
             });
+
+        $this->be(factory(\App\User::class)->create());
+
     }
     /**
      * A basic test example.

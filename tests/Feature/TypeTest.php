@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class TypeTest extends TestCase
 {
     use DatabaseMigrations;
-    use WithoutMiddleware;
 
     public function setUp() {
         parent::setUp();
@@ -18,6 +17,8 @@ class TypeTest extends TestCase
         $this->type = factory(\App\Type::class)->create();
 
         $this->updateArray = ['name' => 'lunch'];
+
+        $this->be(factory(\App\User::class)->create());
     }
     /**
      * A basic test example.

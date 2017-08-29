@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class ItemPurchasesTest extends TestCase
 {
     use DatabaseMigrations;
-    use WithoutMiddleware;
     /**
      * Setup for Tests.
      *
@@ -20,18 +19,64 @@ class ItemPurchasesTest extends TestCase
         parent::setUp();
         
         $this->item = factory(\App\Item::class)
-        	->create()
-            ->each(function($i) {
-                $i->purchases()->saveMany(factory(\App\Purchase::class, 3)->create());
-            });
+        	->create();
+        $this->item->each(function($i) {
+            $i->purchases()->saveMany(factory(\App\Purchase::class, 3)->create());
+        });
+
+        $this->be(factory(\App\User::class)->create());
     }
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testExample()
+    public function testGetPurchases()
     {
-        $this->assertTrue(true);
+        $response = $this->get(route('item.purchases.index', $this->item));
+
+        $response->assertStatus(200);
+
+        $response->assertJson(['total' => 3]);
+    }
+
+    public function testGetPurchase() {
+        $response = $this->get(route('item.purchases.show', ['item' => $this->item , 'purchase' => $this->item->purchases->first()]));
+
+        $response->assertStatus(200);
+
+        $response->assertJson(['name' => $this->item->purchases->first()->name]);
+    }
+
+    public function testCreatePurchase() {
+        $purchase = factory(\App\Purchase::class)->create();
+
+        $response = $this->post(route('item.purchases.store', $this->item), ['purchase_id' => $purchase->id]);
+
+        $response->assertStatus(200);
+
+        $response = $this->get(route('item.purchases.index', $this->item));
+
+        $response->assertJson(['total' => 4]);
+    }
+
+    public function testUpdatePurchase() {
+        $response = $this->put(route('item.purchases.update', ['item' => $this->item , 'purchase' => $this->item->purchases->first()]));
+
+        $response->assertStatus(200);
+
+        $response = $this->get(route('item.purchases.index', $this->item));
+
+        $response->assertJson(['total' => 2]);
+    }
+
+    public function testDestroyPurchase() {
+        $response = $this->delete(route('item.purchases.destroy', ['item' => $this->item , 'purchase' => $this->item->purchases()->first()]));
+
+        $response->assertStatus(200);
+
+        $response = $this->get(route('item.purchases.index', [$this->item, $this->item->purchases()->first()]));
+
+        $response->assertJson(['total' => 2]);
     }
 }

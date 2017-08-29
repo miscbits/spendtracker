@@ -9,9 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ItemTest extends TestCase
 {
-    use DatabaseMigrations;
-    use WithoutMiddleware;
-    
+    use DatabaseMigrations;    
     /**
      * Setup for Tests.
      *
@@ -21,6 +19,8 @@ class ItemTest extends TestCase
         parent::setUp();
         
         $this->item = factory(\App\Item::class)->create();
+
+        $this->be(factory(\App\User::class)->create());
 
         $this->updateArray = ['name' => 'Coffee'];
     }
