@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Type;
 
-class TypesController extends Controller
+class TypeItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Type $type)
     {
-        return Type::paginate(50);
+        return $type->items()->paginate(50);
     }
 
     /**
@@ -33,29 +33,29 @@ class TypesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Type $type)
     {
-        return Type::create($request->all());
+        return $type->items()->attach($request->only('item_id'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  App\Type  $type
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Type $type)
+    public function show(Type $type, $id)
     {
-        return $type;
+        return $type->items()->findOrFail($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  App\Type  $type
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Type $type)
+    public function edit($id)
     {
         //
     }
@@ -64,24 +64,22 @@ class TypesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  App\Type  $type
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Type $type)
+    public function update(Request $request, Type $type, $id)
     {
-        $type->update($request->all());
-
-        return $type;
+        return $type->items()->toggle($id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  App\Type  $type
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Type $type)
+    public function destroy(Type $type, $id)
     {
-        return Type::destroy($type->id);
+        return $type->items()->detach($id);
     }
 }

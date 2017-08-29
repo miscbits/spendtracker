@@ -80,6 +80,6 @@ class PurchaseItemsController extends Controller
      */
     public function destroy(Purchase $purchase, $id)
     {
-        return $purchase->items()->detatch($id);
+        return $purchase->items()->detach($id);
     }
 }

@@ -80,6 +80,6 @@ class ItemTypesController extends Controller
      */
     public function destroy(Item $item, $id)
     {
-        return $item->types()->detatch($id);
+        return $item->types()->detach($id);
     }
 }
