@@ -20,8 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('authenticate', 'JWTAuthenticateController@authenticate');
 Route::post('register', 'JWTAuthenticateController@register');
 
-Route::group(['middleware' => 'jwt.auth'], function() {
-	Route::resource('items', 'ItemsController');
-	Route::resource('purchases', 'PurchasesController');
-	Route::resource('types', 'TypesController');
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::resource('items', 'ItemsController');
+    Route::resource('purchases', 'PurchasesController');
+    Route::resource('types', 'TypesController');
+
+    Route::resource('items/{item}/purchases', 'ItemPurchasesController', ['as' => 'item']);
+    Route::resource('purchases/{purchase}/items', 'PurchaseItemsController', ['as' => 'purchase']);
+
+    Route::resource('items/{item}/types', 'ItemTypesController', ['as' => 'item']);
+    Route::resource('types/{type}/items', 'TypeItemsController', ['as' => 'type']);
 });
