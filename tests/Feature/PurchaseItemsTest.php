@@ -18,13 +18,15 @@ class PurchaseItemsTest extends TestCase
     public function setUp() {
         parent::setUp();
         
-        $this->purchase = factory(\App\Purchase::class)
-            ->create();
+        $user = factory(\App\User::class)->create();
+
+        $this->be($user);
+        
+        $this->purchase = factory(\App\Purchase::class)->create(['user_id' => $user->id]);
+
         $this->purchase->each(function($i) {
             $i->items()->saveMany(factory(\App\Item::class, 3)->create());
         });
-
-        $this->be(factory(\App\User::class)->create());
     }
     /**
      * A basic test example.

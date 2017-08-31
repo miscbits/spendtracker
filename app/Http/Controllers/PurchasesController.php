@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Purchase;
+use Auth;
 
 class PurchasesController extends Controller
 {
@@ -35,7 +36,13 @@ class PurchasesController extends Controller
      */
     public function store(Request $request)
     {
-        return Purchase::create($request->all());
+        $purchase = new Purchase($request->all());
+
+        $purchase->user_id = Auth::user()->id;
+
+        $purchase->save();
+
+        return $purchase;
     }
 
     /**

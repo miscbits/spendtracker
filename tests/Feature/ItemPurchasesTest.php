@@ -17,14 +17,18 @@ class ItemPurchasesTest extends TestCase
      */
     public function setUp() {
         parent::setUp();
-        
-        $this->item = factory(\App\Item::class)
-        	->create();
-        $this->item->each(function($i) {
-            $i->purchases()->saveMany(factory(\App\Purchase::class, 3)->create());
-        });
 
-        $this->be(factory(\App\User::class)->create());
+        $user = factory(\App\User::class)->create();
+
+        $this->be($user);
+        
+        $this->user = $user;
+
+        $this->item = factory(\App\Item::class)->create();
+
+        $this->item->each(function($i) use ($user) {
+            $i->purchases()->saveMany(factory(\App\Purchase::class, 3)->create(['user_id' => $user->id]));
+        });
     }
     /**
      * A basic test example.
@@ -49,7 +53,7 @@ class ItemPurchasesTest extends TestCase
     }
 
     public function testCreatePurchase() {
-        $purchase = factory(\App\Purchase::class)->create();
+        $purchase = factory(\App\Purchase::class)->create(['user_id' => $this->user->id]);
 
         $response = $this->post(route('item.purchases.store', $this->item), ['purchase_id' => $purchase->id]);
 

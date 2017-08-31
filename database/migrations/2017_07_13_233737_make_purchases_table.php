@@ -17,7 +17,13 @@ class MakePurchasesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('cost');
+            $table->integer('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

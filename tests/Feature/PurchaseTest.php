@@ -13,12 +13,15 @@ class PurchaseTest extends TestCase
 
     public function setUp() {
         parent::setUp();
+
+        $user = factory(\App\User::class)->create();
+
+        $this->be($user);
         
-        $this->purchase = factory(\App\Purchase::class)->create();
+        $this->purchase = factory(\App\Purchase::class)->create(['user_id' => $user->id]);
 
         $this->updateArray = ['name' => 'Starbucks', 'cost' => 2500];
 
-        $this->be(factory(\App\User::class)->create());
     }
     /**
      * A basic test example.
